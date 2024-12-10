@@ -1,6 +1,7 @@
 <?php
 
 namespace models;
+
 class Post
 {
     private $conn;
