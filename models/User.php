@@ -1,84 +1,40 @@
 <?php
 
-namespace models;
-
-use config\Database;
-use PDO;
-use PDOException;
-
-require_once 'Database.php';  // Incluir la clase Database
-require_once 'User.php';  // Incluir la clase User
-
-class User
-{
-    private $userName;
-    private $name;
-    private $surname;
-    private $email;
-    private $password;
-    private $idRole;
 
 
-    // Propiedades del usuario (id, username, email, etc.)
-    public function __construct($userName, $name, $surname, $email, $password, $idRole)
-    {
-        $this->userName = $userName;
-        $this->name = $name;
-        $this->surname = $surname;
-        $this->email = $email;
-        $this->password = $password;
-        $this->idRole = $idRole;
-
-    }
-    public function _construct()
-    {
-    
-
-    }
+require_once('../../config/Database.php');
 
 
+function selectUsers(){
+    $conexion = openBd();
 
-    // Métodos CRUD para el usuario (create, read, update, delete)
-    public function getAllUsers()
-    {
-        //Crear instancia de la clase "Database.php"
-        $conn = new DataBase();
+    $sentenciaText = "SELECT * from Users";
 
-        //Llamar a la funcion de la clase
-        $dbConnection = $conn->getConnection();
+    $sentencia = $conexion->prepare($sentenciaText);
+    $sentencia->execute();
 
-        // Chequear conexión
-        /*if ($dbConnection->connect_error) {
-            die("Conexión fallida: " . $dbConnection->connect_error);
-        }*/
-
-        //Consulta SQL
-        $query = "SELECT idUser, userName, name, surname, email, password, idRole FROM Users";
-
-        // Preparar sentencia
-        $stmt = $dbConnection->prepare($query);
-
-        // Ejecutar sentencia
-        $stmt->execute();
-
-        // Establecer el modo de fetch a asociativo
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    //Devuelve un array
+    $resultado = $sentencia->fetchAll();
 
 
-        $usersList = [];
-        // Recorrer cada fila de resultados
-        /*while ($row = $stmt->fetch()) {
+    $conexion = closeBd();
 
-            $user = new User($row["userName"], $row["name"], $row["surname"], $row["email"], $row["password"], $row["idRole"]);
-
-            $usersList[] = $user; 
-            
-        }*/
-
-        //Cerrar conexion
-        $dbConnection = null;
-
-        return $stmt;
-
-    }
+    return $resultado;
 }
+
+/*function selectUsers(){
+    $conexion = openBd();
+
+    $sentenciaText = "SELECT * from Users";
+
+    $sentencia = $conexion->prepare($sentenciaText);
+    $sentencia->execute();
+
+    //Devuelve un array
+    $resultado = $sentencia->fetchAll();
+
+
+    $conexion = closeBd();
+
+    return $resultado;
+}*/

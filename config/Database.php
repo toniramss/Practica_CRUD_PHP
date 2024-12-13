@@ -1,14 +1,28 @@
 <?php
 
-namespace config;
+    function openBd() {
 
-use PDO;
-use PDOException;
+        $servername = 'localhost';
+        $db_name = 'blog_db';
+        $username = 'root';
+        $password = '';
+
+        $conexion = new PDO("mysql:host=" . $servername . ";dbname=" . $db_name, $username, $password);
+
+        $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $conexion->exec("set names utf8");
+
+        return $conexion;
+
+    }
+
+    function closeBd() {
+        return null;
+    }
 
 
-class Database
-{
-    private $host = 'localhost';
+    /*private $host = 'localhost';
     private $db_name = 'blog_db';
     private $username = 'root';
     private $password = '1234';
@@ -39,4 +53,4 @@ class Database
 
         return $this -> conn;
     }
-}
+}*/
