@@ -1,6 +1,6 @@
 <?php
 
-
+session_start();
 
 require_once('../../config/Database.php');
 
@@ -22,19 +22,35 @@ function selectUsers(){
     return $resultado;
 }
 
-/*function selectUsers(){
-    $conexion = openBd();
+function insertUser($userName, $name, $surname, $email, $password, $idRole) {
 
-    $sentenciaText = "SELECT * from Users";
+    try
+    {
 
-    $sentencia = $conexion->prepare($sentenciaText);
-    $sentencia->execute();
+        $conexion = openBd();
 
-    //Devuelve un array
-    $resultado = $sentencia->fetchAll();
+        $sentenciaText = "INSERT INTO Users (userName, name, surname, email, password, idRole) VALUES (:userName, :name, :surname, :email, :password, :idRole)";
 
+        $sentencia = $conexion->prepare($sentenciaText);
+        $sentencia->bindParam(':userName', $userName);
+        $sentencia->bindParam(':name', $name);
+        $sentencia->bindParam(':email', $email);
+        $sentencia->bindParam(':password', $password);
+        $sentencia->bindParam(':idRole', $idRole);
 
+        $sentencia->execute();
+
+        $_SESSION['mensaje'] = "Registro insertado correctamente";
+       
+
+    } catch (PDOException $e){
+        $_SESSION['error'] = errorMessage($e);
+
+    }
+
+    //Cerramos la conexion fuera del try catch, porque asi siempre se cerrara la conexión, haya ido bien o mal
     $conexion = closeBd();
 
-    return $resultado;
-}*/
+    
+
+}

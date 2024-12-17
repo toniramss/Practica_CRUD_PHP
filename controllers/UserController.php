@@ -1,16 +1,32 @@
 <?php
 
-namespace controllers;
+session_start();
 
-use models\User;
+require_once('../config/Database.php');
 
-class UserController
-{
-    private $userModel;
 
-    public function __construct(User $user)
-    {
-        $this->userModel = $user;
+if (isset($_POST['insert'])) {
+
+    //Cuando enviamos por post tiene que tener en name el nombre de la variable que queramos enviar
+    insertUser($_POST['userName'], $_POST['name'], $_POST['surname'], $_POST['email'], $_POST['password'], $_POST['idRole']);
+
+    //Si se produce un error lo mostramos
+    if (isset($_SESSION['error'])) {
+
+    //Si todo funciona correctamente mostramos todos los usuarios con el nuevo al final
+    } else {
+
+        //Redireccionar a la lista de usuarios para visualizar el que se ha creado
+        header('Location: ../views/user');
+        exit();
+
     }
-    // Métodos para manejar acciones del usuario (registro, login, etc.)
+
+
+} 
+else if (isset($_POST['login'])) {
+
+}
+elseif (isset($_POST['delete'])) {
+
 }

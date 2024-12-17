@@ -2,10 +2,10 @@
 
     function openBd() {
 
-        $servername = 'localhost';
+        $servername = '172.17.131.35';
         $db_name = 'blog_db';
-        $username = 'root';
-        $password = '';
+        $username = 'Toni';
+        $password = '1234';
 
         $conexion = new PDO("mysql:host=" . $servername . ";dbname=" . $db_name, $username, $password);
 
@@ -19,6 +19,46 @@
 
     function closeBd() {
         return null;
+    }
+
+    function errorMessage($e) {
+
+        //errorInfo es un array
+        //Si la posicion 1 no esta vacia hace el if
+        if (!empty($e->errorInfo[1])){
+
+            //Segun error muestra el mensaje
+            switch ($e->errorInfo[1]) {
+                case 1062:
+                    $mensaje = "Registro duplicado";
+                    break;
+                case 1451:
+                    $mensaje = "Registro con elementos relacionados";
+                    break;
+                default:
+                    $mensaje = $e->errorInfo[1] . ' - ' . $e->errorInfo[2];
+                    break;
+            }
+
+            //Hay errores de la base de datos que no vienen en errorInfo -> utilizamos el errorCode
+        } else {
+            switch ($e->getCode()) {
+                case 1044:
+                    $mensaje = "Usuario y/o password incorrecto";
+                    break;
+                case 1049:
+                    $mensaje = "Base de datos desconocida";
+                    break;
+                case 2002:
+                    $mensaje = "No se encuentra el servidor";
+                    break;
+                default:
+                    $mensaje = $e->getCode() . ' - ' . $e->getMessage();
+                    break;
+            }
+        }
+
+        return $mensaje;
     }
 
 

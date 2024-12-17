@@ -1,7 +1,5 @@
 <?php
-    require_once('../../config/Database.php');
-
-    $usuarios = selectUsers();
+    
 ?>
 
 <!DOCTYPE html>
@@ -18,13 +16,19 @@
 
         <img src="../../public/img/usuario.png">
 
-        <label>Nombre de usuario:</label>
-        <input type="text">
+        <form action="../../controllers/UserController.php" method="POST">
 
-        <label>Contraseña:</label>
-        <input type="password">
+            <label>Nombre de usuario:</label>
+            <input type="text" id="textViewNombreUsuario" name="nombreUsuario">
 
-        <button>Log In</button>
+            <label>Contraseña:</label>
+            <input type="password" id="textViewContrasenya" name="contrasenya">
+
+            <button type="submit" name="login">Log In</button>
+
+        </form>
+
+        
 
     </div>
 
